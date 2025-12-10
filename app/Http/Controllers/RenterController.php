@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AssignRenterRequest;
 use App\Http\Requests\StoreRenterRequest;
+use App\Http\Requests\UpdateRenterRequest;
 use App\Models\User;
 use App\Models\Flat;
 use App\Services\FlatService;
@@ -41,6 +42,28 @@ class RenterController extends Controller
             abort(404);
         }
         return response()->json($user);
+    }
+
+    public function update(UpdateRenterRequest $request, User $renter)
+    {
+        Gate::authorize('admin');
+
+        if ($renter->role !== 'renter') {
+            abort(404);
+        }
+
+        $renter->name = $request->name ?? $renter->name;
+        $renter->email = $request->email ?? $renter->email;
+        if ($request->filled('password')) {
+            $renter->password = Hash::make($request->password);
+        }
+        if ($request->filled('tenant_id')) {
+            $renter->tenant_id = $request->tenant_id;
+        }
+
+        $renter->save();
+
+        return response()->json($renter);
     }
 
     public function assign(AssignRenterRequest $request)

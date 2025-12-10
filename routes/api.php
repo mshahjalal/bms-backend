@@ -21,8 +21,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 Route::group(['middleware' => ['auth:api', 'idempotency']], function () {
     // Admin Routes
     Route::apiResource('tenants', TenantController::class);
+    Route::get('house-owners/list', [HouseOwnerController::class, 'list']);
     Route::post('house-owners', [HouseOwnerController::class, 'store']);
-    Route::apiResource('renters', RenterController::class)->except(['update', 'destroy']); // Add other methods if needed
+    Route::put('house-owners/{id}', [HouseOwnerController::class, 'update']);
+    Route::apiResource('renters', RenterController::class)->except(['destroy']); // Add other methods if needed
     Route::post('assign-renter', [RenterController::class, 'assign']);
 
     // House Owner Routes

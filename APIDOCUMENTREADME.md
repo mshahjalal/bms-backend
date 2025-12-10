@@ -73,6 +73,10 @@
 - **Endpoint**: `/tenants/{id}`
 
 ### 2. House Owners
+#### List House Owners
+- **Method**: `GET`
+- **Endpoint**: `/house-owners/list`
+
 #### Create House Owner
 - **Method**: `POST`
 - **Endpoint**: `/house-owners`
@@ -86,10 +90,26 @@
   }
   ```
 
+#### Update House Owner
+- **Method**: `PUT`
+- **Endpoint**: `/house-owners/{id}`
+- **Body** (JSON):
+  ```json
+  {
+    "name": "Updated Name",
+    "email": "updated@example.com",
+    "password": "newpassword"
+  }
+  ```
+
 ### 3. Renters
 #### List Renters
 - **Method**: `GET`
 - **Endpoint**: `/renters`
+
+#### Show Renter
+- **Method**: `GET`
+- **Endpoint**: `/renters/{id}`
 
 #### Create Renter
 - **Method**: `POST`
@@ -112,6 +132,18 @@
   {
     "flat_id": "uuid-of-flat",
     "renter_id": "uuid-of-renter"
+  }
+  ```
+
+#### Update Renter
+- **Method**: `PUT`
+- **Endpoint**: `/renters/{id}`
+- **Body** (JSON):
+  ```json
+  {
+    "name": "Updated Name",
+    "email": "updated@example.com",
+    "password": "newpassword"
   }
   ```
 
