@@ -3,6 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TenantController;
+use App\Http\Controllers\HouseOwnerController;
+use App\Http\Controllers\RenterController;
+use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\FlatController;
+use App\Http\Controllers\BillCategoryController;
+use App\Http\Controllers\BillController;
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('login', [AuthController::class, 'login']);
@@ -13,15 +20,15 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => ['auth:api', 'idempotency']], function () {
     // Admin Routes
-    Route::apiResource('tenants', \App\Http\Controllers\TenantController::class);
-    Route::post('house-owners', [\App\Http\Controllers\HouseOwnerController::class, 'store']);
-    Route::apiResource('renters', \App\Http\Controllers\RenterController::class)->except(['update', 'destroy']); // Add other methods if needed
-    Route::post('assign-renter', [\App\Http\Controllers\RenterController::class, 'assign']);
+    Route::apiResource('tenants', TenantController::class);
+    Route::post('house-owners', [HouseOwnerController::class, 'store']);
+    Route::apiResource('renters', RenterController::class)->except(['update', 'destroy']); // Add other methods if needed
+    Route::post('assign-renter', [RenterController::class, 'assign']);
 
     // House Owner Routes
-    Route::apiResource('buildings', \App\Http\Controllers\BuildingController::class);
-    Route::apiResource('flats', \App\Http\Controllers\FlatController::class);
-    Route::apiResource('bill-categories', \App\Http\Controllers\BillCategoryController::class);
-    Route::apiResource('bills', \App\Http\Controllers\BillController::class);
+    Route::apiResource('buildings', BuildingController::class);
+    Route::apiResource('flats', FlatController::class);
+    Route::apiResource('bill-categories', BillCategoryController::class);
+    Route::apiResource('bills', BillController::class);
 });
 
